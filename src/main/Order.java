@@ -55,7 +55,5 @@ public class Order {
     public String toString() {
         return String.format("%d %s %d %s", this.getId(), this.getCustomerName(), this.getRequestedParts().size(), (this.isFulfilled())? "FULFILLED": "PENDING");
     }
-
-    
     
 }

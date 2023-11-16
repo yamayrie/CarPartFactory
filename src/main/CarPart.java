@@ -6,16 +6,13 @@ public class CarPart {
 	private String name;
 	private double weight;
 	private boolean isDefective;
-	private double partWeightError;
-	private int chanceOfDefective;
 	
     public CarPart(int id, String name, double weight, boolean isDefective) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.isDefective = isDefective;
-        this.partWeightError = 0.0;
-        this.chanceOfDefective = 0;
+
     }
     
     public int getId() {
@@ -58,22 +55,6 @@ public class CarPart {
         return this.getName();
     }
 
-	public double getPartWeightError() {
-		return partWeightError;
-	}
-	
-	public void setPartWeightError(double partWeightError) {
-		this.partWeightError = partWeightError;
-	}
-
-	public int getChanceOfDefective() {
-		return chanceOfDefective;
-	}
-	
-	public void setChanceOfDefective(int chanceOfDefective) {
-		this.chanceOfDefective = chanceOfDefective;
-	}
-	
 }
 
 

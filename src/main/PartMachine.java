@@ -5,6 +5,12 @@ import java.util.Random;
 import data_structures.ListQueue;
 import interfaces.Queue;
 
+
+/**
+ * Class that represents a machine in a car part factory that produces car parts. Includes methods for reseting the conveyor belt,
+ * creating a timer, starting the timer, starting the conveyor belt and producing car parts. 
+ * 
+*/
 public class PartMachine {
 	
 	private int id ;
@@ -17,6 +23,16 @@ public class PartMachine {
 	private int totalPartsProduced;
 	private Random random = new Random();
    
+	/**
+	 * Creates a constructor for PartMachine.
+	 * 
+	 * @param id ID of the machine.
+	 * @param p1 The car part that the machine produces.
+	 * @param period How often a part is produced.
+	 * @param weightError Error of the weight of the part being produced.
+	 * @param chanceOfDefective Chances of the part coming out defective.
+	 * 
+	*/
     public PartMachine(int id, CarPart p1, int period, double weightError, int chanceOfDefective) {
         this.id = id;
         this.p1 = p1;
@@ -27,6 +43,7 @@ public class PartMachine {
         startConveyorBelt();
     }
     
+    // Getters and setters for fields
     public int getId() {
        return id;
     }
@@ -82,6 +99,8 @@ public class PartMachine {
         this.chanceOfDefective = chanceOfDefective;
     }
     
+    
+    /** Empties the conveyor belt. Sets all values to null.*/
     public void resetConveyorBelt() {
         while (!conveyorBelt.isEmpty()) {
         	conveyorBelt.dequeue();
@@ -91,12 +110,14 @@ public class PartMachine {
         }
     }
     
+    /** Updates the timer by one.*/
     public int tickTimer() {
        int front = timer.dequeue();
        timer.enqueue(front);
        return front;
     }
     
+    /** Initializes the timer queue.*/
     private void startTimer() {
     	timer = new ListQueue<>();
     	for (int i = period - 1; i >= 0; i--) {
@@ -104,6 +125,7 @@ public class PartMachine {
     	}
     }
     
+    /** Starts the conveyor belt queue.*/
     private void startConveyorBelt() {
     	conveyorBelt = new ListQueue<>();
     	for (int i = 0; i < 10; i++) {
@@ -111,6 +133,15 @@ public class PartMachine {
     	}
     }
     
+    /**
+     * Generates a new part. If the time is 0, it produces a part. If it isn't, a null space is added to the
+     * conveyor belt. We create a new part which all of them have the same name and ID. We generate a random
+     * weight based on the part's weight error for the machine. We also calculate the amount of parts that
+     * are defective and count all the parts produced.
+     * 
+     * @return The part in front of the conveyor belt.
+     * 
+    */
     public CarPart produceCarPart() {
        if (tickTimer() != 0) {
     	   conveyorBelt.enqueue(null);
@@ -119,23 +150,19 @@ public class PartMachine {
     	   int partID = p1.getId();
     	   String partName = p1.getName();
     	   
-    	   double min = p1.getWeight() - p1.getPartWeightError();
-    	   double max = p1.getWeight() + p1.getPartWeightError();
+    	   double min = p1.getWeight() - getPartWeightError();
+    	   double max = p1.getWeight() + getPartWeightError();
     	   double randomWeight = min + random.nextDouble() * (max - min);
     	   
-    	   boolean isDefective = p1.getChanceOfDefective() != 0 && (getTotalPartsProduced() % p1.getChanceOfDefective()) == 0;
+    	   boolean isDefective = getChanceOfDefective() != 0 && (getTotalPartsProduced() % getChanceOfDefective()) == 0;
     	   
     	   CarPart newPart = new CarPart(partID, partName, randomWeight, isDefective);
     	   conveyorBelt.enqueue(newPart);
-    	   // getTotalPartsProduced in PartMachine
-    	   setTotalPartsProduced(getTotalPartsProduced() + 1); // p1.getID().getTotalPartsProduced() + 1;
+    	   setTotalPartsProduced(getTotalPartsProduced() + 1);
        }
        return conveyorBelt.dequeue();
     }
     
-    
-    
-
     /**
      * Returns string representation of a Part Machine in the following format:
      * Machine {id} Produced: {part name} {total parts produced}
