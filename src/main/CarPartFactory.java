@@ -46,8 +46,8 @@ public class CarPartFactory {
     	this.machines = new DoublyLinkedList<>();
     	this.productionBin = new LinkedStack<>();
     	
-    	setupOrders("input/orders.csv");
-    	setupMachines("input/parts.csv");
+    	setupOrders(orderPath);
+    	setupMachines(partsPath);
     	
     	setupCatalog();
     	setupInventory();
